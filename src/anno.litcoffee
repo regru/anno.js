@@ -53,7 +53,7 @@ anything you don't specify.
 You can supply either a single object, or a list of objects.
 
       constructor: (arg) ->
-        if arg.__proto__ is Array.prototype
+        if arg instanceof Array
           options = arg.shift() # remove the first element from arg.
           others = arg
         else

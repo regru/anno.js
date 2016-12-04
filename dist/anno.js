@@ -11,41 +11,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-/******/
+
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-/******/
+
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-/******/
+
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-/******/
+
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
+
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/
+
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/
-/******/
+
+
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-/******/
+
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-/******/
+
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-/******/
+
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -55,7 +55,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var $, Anno, AnnoButton,
-	  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+	  indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 	$ = __webpack_require__(1);
 
@@ -66,7 +66,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  function Anno(arg) {
 	    var key, options, others, val;
-	    if (arg.__proto__ === Array.prototype) {
+	    if (arg instanceof Array) {
 	      options = arg.shift();
 	      others = arg;
 	    } else {
@@ -95,13 +95,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  Anno.setDefaults = function(options) {
-	    var key, val, _results;
-	    _results = [];
+	    var key, results, val;
+	    results = [];
 	    for (key in options) {
 	      val = options[key];
-	      _results.push(Anno.prototype[key] = val);
+	      results.push(Anno.prototype[key] = val);
 	    }
-	    return _results;
+	    return results;
 	  };
 
 	  Anno.prototype.chainTo = function(obj) {
@@ -461,11 +461,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Anno.prototype._undoEmphasise = [];
 
 	  Anno.prototype.deemphasiseTarget = function() {
-	    var $target, fn, _i, _len, _ref;
+	    var $target, fn, j, len, ref;
 	    $target = this.targetFn();
-	    _ref = this._undoEmphasise;
-	    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-	      fn = _ref[_i];
+	    ref = this._undoEmphasise;
+	    for (j = 0, len = ref.length; j < len; j++) {
+	      fn = ref[j];
 	      fn($target);
 	    }
 	    return $target;
@@ -581,7 +581,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        bad = bad.concat(['bottom', 'center-bottom']);
 	      }
 	      allowed = Anno.preferredPositions.filter(function(p) {
-	        return __indexOf.call(bad, p) < 0;
+	        return indexOf.call(bad, p) < 0;
 	      });
 	      if (allowed.length === 0) {
 	        console.error(("Anno couldn't guess a position for '" + this.target + "'. ") + "Please supply one in the constructor.");
@@ -641,14 +641,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Anno.prototype.buttonsElem = function() {
 	    var b;
 	    return $("<div class='anno-btn-container'></div>").append((function() {
-	      var _i, _len, _ref, _results;
-	      _ref = this.buttonsFn();
-	      _results = [];
-	      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-	        b = _ref[_i];
-	        _results.push(b.buttonElem(this));
+	      var j, len, ref, results;
+	      ref = this.buttonsFn();
+	      results = [];
+	      for (j = 0, len = ref.length; j < len; j++) {
+	        b = ref[j];
+	        results.push(b.buttonElem(this));
 	      }
-	      return _results;
+	      return results;
 	    }).call(this));
 	  };
 
@@ -724,13 +724,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
 /***/ },
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	/*!
 	 * jQuery scrollintoview() plugin and :scrollable selector filter
@@ -945,3 +945,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ }
 /******/ ])
 });
+;
