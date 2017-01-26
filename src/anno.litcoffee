@@ -383,6 +383,33 @@ the fade in effect.
             do (origleft) => @_undoEmphasise.push ($t) -> $t.css left:origleft
             $target.css('left', ppos.left)
 
+          return $target
+        else
+          wrapperTop = $target.position().top - 24
+          wrapperLeft = $target.position().left - 24
+          cloneWidth = $target.outerWidth()
+          cloneHeight = $target.outerHeight()
+          $target.after( $target
+            .clone()
+            .css({'width': cloneWidth, 'height': cloneHeight()})
+            .wrap('<div class="anno-wrapper"></div>')
+            .parent()
+              .css({
+                'position': 'absolute', 
+                'top': wrapperTop, 
+                'left': wrapperLeft, 
+                'padding': '24px', 
+                'background': 'white', 
+                'width': cloneWidth, 
+                'height': cloneHeight, 
+                zIndex: '1001'
+              }) )
+          $wrapper = $target.next('.anno-wrapper')
+          do ($wrapper) => @_undoEmphasise.push () -> $wrapper.remove()
+
+          return $wrapper
+
+        ###
         if $target.css('backgroundColor') is 'rgba(0, 0, 0, 0)' or
         $target.css('backgroundColor') is 'transparent'
           console.warn "Anno.js target '#{@target}' has a transparent bg; "+
@@ -396,6 +423,7 @@ the fade in effect.
         $target.css( zIndex:'1001' )
 
         return $target
+        ###
 
       _undoEmphasise: [] # list of functions to undo emphasiseTarget()
 
