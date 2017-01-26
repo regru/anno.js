@@ -337,7 +337,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  Anno.prototype.emphasiseTarget = function($target) {
-	    var origbg, origheight, origleft, origtop, origwidth, origzindex, placeholder, ppos, startposition, tpos;
+	    var $wrapper, cloneHeight, cloneWidth, origheight, origleft, origtop, origwidth, placeholder, ppos, startposition, tpos, wrapperLeft, wrapperTop;
 	    if ($target == null) {
 	      $target = this.targetFn();
 	    }
@@ -425,37 +425,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	        })(this)(origleft);
 	        $target.css('left', ppos.left);
 	      }
-	    }
-	    if ($target.css('backgroundColor') === 'rgba(0, 0, 0, 0)' || $target.css('backgroundColor') === 'transparent') {
-	      console.warn(("Anno.js target '" + this.target + "' has a transparent bg; ") + "filling it white temporarily.");
-	      origbg = $target.prop('style').background;
+	      return $target;
+	    } else {
+	      wrapperTop = $target.position().top - 24;
+	      wrapperLeft = $target.position().left - 24;
+	      cloneWidth = $target.outerWidth();
+	      cloneHeight = $target.outerHeight();
+	      $target.after($target.clone().css({
+	        'width': cloneWidth,
+	        'height': cloneHeight()
+	      }).wrap('<div class="anno-wrapper"></div>').parent().css({
+	        'position': 'absolute',
+	        'top': wrapperTop,
+	        'left': wrapperLeft,
+	        'padding': '24px',
+	        'background': 'white',
+	        'width': cloneWidth,
+	        'height': cloneHeight,
+	        zIndex: '1001'
+	      }));
+	      $wrapper = $target.next('.anno-wrapper');
 	      (function(_this) {
-	        return (function(origbg) {
-	          return _this._undoEmphasise.push(function($t) {
-	            return $t.css({
-	              background: origbg
-	            });
+	        return (function($wrapper) {
+	          return _this._undoEmphasise.push(function() {
+	            return $wrapper.remove();
 	          });
 	        });
-	      })(this)(origbg);
-	      $target.css({
-	        background: 'white'
-	      });
+	      })(this)($wrapper);
+	      return $wrapper;
 	    }
-	    origzindex = $target.prop('style').zIndex;
-	    (function(_this) {
-	      return (function(origzindex) {
-	        return _this._undoEmphasise.push(function($t) {
-	          return $t.css({
-	            zIndex: origzindex
-	          });
-	        });
-	      });
-	    })(this)(origzindex);
-	    $target.css({
-	      zIndex: '1001'
-	    });
-	    return $target;
+
+	    /*
+	    if $target.css('backgroundColor') is 'rgba(0, 0, 0, 0)' or
+	    $target.css('backgroundColor') is 'transparent'
+	      console.warn "Anno.js target '#{@target}' has a transparent bg; "+
+	        "filling it white temporarily."
+	      origbg = $target.prop('style').background
+	      do (origbg) => @_undoEmphasise.push ($t) -> $t.css background:origbg
+	      $target.css( background: 'white')
+	    
+	    origzindex = $target.prop('style').zIndex
+	    do (origzindex) => @_undoEmphasise.push ($t) -> $t.css zIndex:origzindex
+	    $target.css( zIndex:'1001' )
+	    
+	    return $target
+	     */
 	  };
 
 	  Anno.prototype._undoEmphasise = [];
